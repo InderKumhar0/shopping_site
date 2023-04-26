@@ -1,22 +1,23 @@
-////////////getting data from firesotre//////////////////
-import { createContext, useState, useEffect } from "react";
-import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.js";
+import { createContext, useState, useEffect } from 'react';
+
+import { getCategoriesAndDocuments } from '../utils/firebase/firebase.utils';
 
 export const CategoriesContext = createContext({
   categoriesMap: {},
 });
 
 export const CategoriesProvider = ({ children }) => {
-  const [categoriesMap, setcategoriesMap] = useState({});
+  const [categoriesMap, setCategoriesMap] = useState({});
 
   useEffect(() => {
     const getCategoriesMap = async () => {
       const categoryMap = await getCategoriesAndDocuments();
-      console.log(categoryMap);
-      setcategoriesMap(categoryMap);
+      setCategoriesMap(categoryMap);
     };
+
     getCategoriesMap();
-  });
+  }, []);
+
   const value = { categoriesMap };
   return (
     <CategoriesContext.Provider value={value}>
@@ -24,25 +25,3 @@ export const CategoriesProvider = ({ children }) => {
     </CategoriesContext.Provider>
   );
 };
-
-///////////////adding data to firesotre//////////////////
-// import { createContext, useState, useEffect } from "react";
-// import { addCollectionAndDocuments } from "../utils/firebase/firebase.utils.js";
-// import SHOP_DATA from "../shop-data.js";
-
-// export const CategoriesContext = createContext({
-//   products: [],
-// });
-
-// export const ProductsProvider = ({ children }) => {
-//   const [products, setProducts] = useState([]);
-//   // useEffect(() => {
-//   //   addCollectionAndDocuments('categories', SHOP_DATA);
-//   // }, []);
-//   const value = { products };
-//   return (
-//     <CategoriesContext.Provider value={value}>
-//       {children}
-//     </CategoriesContext.Provider>
-//   );
-// };
